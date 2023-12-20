@@ -9,8 +9,11 @@ public class EnemyDragon : MonoBehaviour
     public float timeBetweenEggDrops = 1f;
     public float leftRightDistance = 10f;
     public float chanceDirection = 0.1f;
+    private int Sound1;
     void Start()
     {
+        Sound1 = PlayerPrefs.GetInt("Sound1");
+        if (Sound1 == 1) { timeBetweenEggDrops = 0.5f; speed = 10; }
         Invoke("DropEgg", 2f);
     }
     void DropEgg()
@@ -18,30 +21,19 @@ public class EnemyDragon : MonoBehaviour
         Vector3 myVector = new Vector3(0.0f, 5.0f, 0.0f);
         GameObject egg = Instantiate<GameObject>(dragonEggPrefab);
         egg.transform.position = transform.position + myVector;
+        if (Sound1 == 1) { egg.GetComponent<Rigidbody>().mass = 5; }
         Invoke("DropEgg", timeBetweenEggDrops);
     }
-
-    // Update is called once per frame
     void Update()
     {
         Vector3 pos=transform.position;
         pos.x += speed * Time.deltaTime;
         transform.position = pos;
-
         if (pos.x < -leftRightDistance)
-        {
-            speed = Mathf.Abs(speed);
-        }
+        { speed = Mathf.Abs(speed);}
         else if(pos.x > leftRightDistance)
-        {
-            speed = -Mathf.Abs(speed);
-        }
+        { speed = -Mathf.Abs(speed);}
     }
     private void FixedUpdate()
-    {
-        if (Random.value < chanceDirection)
-        {
-            speed *= -1;
-        }
-    }
+    { if (Random.value < chanceDirection){speed *= -1;}}
 }

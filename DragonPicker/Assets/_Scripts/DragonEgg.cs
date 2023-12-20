@@ -7,11 +7,6 @@ public class DragonEgg : MonoBehaviour
     public static float bottomY = -30f;
     public AudioSource audioSource;
 
-    void Start()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         ParticleSystem ps = GetComponent<ParticleSystem>();
@@ -25,7 +20,6 @@ public class DragonEgg : MonoBehaviour
         audioSource.Play();
 
     }
-
     void Update()
     {
         if (transform.position.y < bottomY)
